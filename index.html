@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="es-CR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASADA de Pedregoso · Demo del sitio</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Demo del sitio institucional de la ASADA de Pedregoso: avisos de cortes y mantenimientos, horarios, reporte de averías, comunicados y documentos.">
+<style>
+  :root{
+    --papel:#ffffff;
+    --piedra:#dbe5ea;
+    --tinta:#1b2830;
+    --tinta-suave:#4a5b65;
+    --musgo:#0f5a80;
+    --musgo-oscuro:#0a3b57;
+    --barro:#b4532a;
+    --barro-oscuro:#913f1d;
+    --ocre:#d8a23f;
+    --blanco:#ffffff;
+    --agua-clara:#eef6fa;
+    --radio:14px;
+    --serif:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    --sans:system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--papel);color:var(--tinta);font-family:var(--sans);line-height:1.6;font-size:17px}
+  a{color:var(--barro-oscuro)}
+  .wrap{width:min(1080px,100% - 32px);margin-inline:auto}
+  h1,h2,h3{font-family:var(--serif);line-height:1.15;margin:0 0 .5em;color:var(--musgo-oscuro)}
+  h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700}
+  h2{font-size:clamp(1.6rem,4vw,2.2rem)}
+  h3{font-size:1.2rem}
+  p{margin:0 0 1em}
+
+  .demo-banda{background:var(--ocre);color:#2b2210;text-align:center;font-size:.9rem;padding:8px 16px;font-weight:600}
+
+  header.sitio{background:var(--blanco);border-bottom:1px solid var(--piedra);position:sticky;top:0;z-index:20}
+  .barra{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+  .marca{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--musgo-oscuro)}
+  .marca-sello{width:42px;height:42px;border-radius:50% 50% 50% 8%;background:var(--musgo);display:grid;place-items:center;color:var(--papel);font-family:var(--serif);font-weight:700}
+  .marca strong{display:block;font-family:var(--serif);font-size:1.1rem;line-height:1.1}
+  .marca small{color:var(--tinta-suave);font-size:.78rem}
+  nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+  nav a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--tinta);font-weight:600;font-size:.95rem}
+  nav a:hover,nav a:focus-visible{background:var(--piedra)}
+  .menu-btn{display:none;background:none;border:2px solid var(--musgo);color:var(--musgo);border-radius:8px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer}
+
+  .hero{background:var(--musgo-oscuro);color:var(--papel);padding:14px 14px 0}
+  .hero-marco{position:relative;overflow:hidden;border-radius:18px 18px 0 0;background:linear-gradient(90deg,rgba(10,59,87,.9) 0%,rgba(10,59,87,.68) 55%,rgba(10,59,87,.4) 100%),url(img/hero-naciente.jpg) center/cover no-repeat,var(--musgo-oscuro)}
+  .hero .wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;padding:64px 0 88px}
+  .hero h1{color:var(--papel)}
+  .hero p.lead{font-size:1.2rem;color:#d3e6f0;max-width:34em}
+  .etiqueta{display:inline-block;background:rgba(216,162,63,.18);color:var(--ocre);border:1px solid rgba(216,162,63,.5);padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px}
+  .acciones{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid transparent;font:inherit;font-weight:700;cursor:pointer}
+  .btn-barro{background:var(--barro);color:#fff}
+  .btn-barro:hover{background:var(--barro-oscuro)}
+  .btn-borde{border-color:var(--papel);color:var(--papel);background:transparent}
+  .btn-borde:hover{background:rgba(245,240,230,.12)}
+  .btn-musgo{background:var(--musgo);color:#fff}
+  .btn-musgo:hover{background:var(--musgo-oscuro)}
+  .btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--ocre);outline-offset:2px}
+
+  .estado{background:var(--papel);color:var(--tinta);border-radius:var(--radio);padding:22px;box-shadow:0 14px 30px rgba(0,0,0,.25)}
+  .estado h2{font-size:1.1rem;color:var(--tinta-suave);font-family:var(--sans);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+  .estado .grande{font-family:var(--serif);font-size:1.7rem;color:var(--musgo-oscuro);display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .punto{width:14px;height:14px;border-radius:50%;background:#1a8cc2;display:inline-block;box-shadow:0 0 0 4px rgba(26,140,194,.22)}
+  .estado small{color:var(--tinta-suave)}
+  .onda{position:absolute;left:0;right:0;bottom:-1px;line-height:0}
+  .onda svg{display:block;width:100%;height:56px}
+
+  section{padding:64px 0}
+  section.alt{background:var(--agua-clara);border-block:1px solid var(--piedra)}
+  .encabezado{max-width:42em;margin-bottom:32px}
+  .encabezado p{color:var(--tinta-suave)}
+
+  .filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .filtro{background:var(--blanco);border:2px solid var(--piedra);color:var(--tinta);border-radius:999px;padding:7px 16px;font:inherit;font-weight:600;cursor:pointer}
+  .filtro[aria-pressed="true"]{background:var(--musgo);border-color:var(--musgo);color:#fff}
+  .lista-avisos{display:grid;gap:14px}
+  .aviso{background:var(--blanco);border:1px solid var(--piedra);border-left:6px solid var(--musgo);border-radius:var(--radio);padding:18px 20px}
+  .aviso[data-tipo="corte"]{border-left-color:var(--barro)}
+  .aviso[data-tipo="mantenimiento"]{border-left-color:var(--ocre)}
+  .aviso-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--tinta-suave);margin-bottom:6px}
+  .chip{padding:2px 10px;border-radius:999px;font-weight:700;font-size:.78rem;background:var(--piedra);color:var(--tinta)}
+  .chip.corte{background:#f1d6c8;color:#6e2c10}
+  .chip.mantenimiento{background:#f3e2b8;color:#58410a}
+  .chip.comunicado{background:#d3e6f0;color:#0a3b57}
+  .aviso h3{margin-bottom:.3em}
+  .aviso p{margin:0;color:var(--tinta-suave)}
+  .vacio{padding:24px;text-align:center;color:var(--tinta-suave)}
+
+  .tarjetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .tarjeta{background:var(--papel);border:1px solid var(--piedra);border-radius:var(--radio);padding:22px}
+  section.alt .tarjeta{background:#fff}
+  .tarjeta .icono{width:44px;height:44px;border-radius:12px;background:var(--musgo);color:var(--papel);display:grid;place-items:center;margin-bottom:12px}
+  .tarjeta .icono svg{width:24px;height:24px}
+  .tarjeta dl{margin:0}
+  .tarjeta dt{font-weight:700;margin-top:6px}
+  .tarjeta dd{margin:0;color:var(--tinta-suave)}
+
+  .pasos{counter-reset:paso;display:grid;gap:14px;margin:0;padding:0;list-style:none}
+  .pasos li{counter-increment:paso;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+  .pasos li::before{content:counter(paso);width:44px;height:44px;border-radius:50%;background:var(--barro);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:1.2rem}
+  .pasos strong{display:block}
+  .dos-col{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  form.reporte{background:var(--blanco);border:1px solid var(--piedra);border-radius:var(--radio);padding:24px;display:grid;gap:14px}
+  section.alt form.reporte{background:#fff}
+  label{font-weight:700;display:grid;gap:6px;font-size:.95rem}
+  input,select,textarea{font:inherit;padding:11px 12px;border:2px solid #b9c9d2;border-radius:10px;background:#fff;color:var(--tinta);width:100%}
+  textarea{min-height:96px;resize:vertical}
+  .nota{font-size:.85rem;color:var(--tinta-suave);margin:0}
+
+  .documentos{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .documentos li{background:var(--blanco);border:1px solid var(--piedra);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .documentos .nombre{font-weight:700}
+  .documentos small{color:var(--tinta-suave);display:block;font-weight:400}
+  .doc-estado{font-size:.8rem;font-weight:700;color:var(--tinta-suave);background:var(--piedra);padding:4px 12px;border-radius:999px}
+
+  .contacto-datos{display:grid;gap:14px}
+  .contacto-datos .fila{display:flex;gap:14px;align-items:flex-start}
+  .contacto-datos .icono{flex:0 0 40px;height:40px;border-radius:10px;background:var(--musgo);color:var(--papel);display:grid;place-items:center}
+  .contacto-datos .icono svg{width:22px;height:22px}
+  .contacto-datos strong{display:block}
+
+  .porque{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:8px}
+  .porque div{border-top:4px solid var(--ocre);padding-top:12px}
+  .porque strong{font-family:var(--serif);font-size:1.15rem;color:var(--musgo-oscuro);display:block}
+
+  footer{background:var(--musgo-oscuro);color:#cde0eb;padding:40px 0;font-size:.95rem}
+  footer a{color:var(--ocre)}
+  footer .fila{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  footer strong{color:var(--papel);font-family:var(--serif);font-size:1.1rem}
+
+  @media (max-width:820px){
+    .hero .wrap{grid-template-columns:1fr;padding:44px 0 72px}
+    .dos-col{grid-template-columns:1fr;gap:28px}
+    .menu-btn{display:block}
+    nav{display:none;width:100%}
+    nav.abierto{display:block}
+    .barra{flex-wrap:wrap}
+    nav ul{flex-direction:column;padding-bottom:10px}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo-banda" role="note">DEMO · Los datos, avisos y documentos de esta página son ejemplos para mostrar cómo se vería el sitio. Se reemplazan con la información real de la ASADA.</div>
+
+<header class="sitio">
+  <div class="wrap barra">
+    <a class="marca" href="#inicio" aria-label="ASADA de Pedregoso, inicio">
+      <span class="marca-sello" aria-hidden="true">P</span>
+      <span><strong>ASADA de Pedregoso</strong><small>San Isidro de El General · Pérez Zeledón</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuNav">Menú</button>
+    <nav id="menuNav" aria-label="Principal">
+      <ul>
+        <li><a href="#avisos">Avisos</a></li>
+        <li><a href="#horarios">Horarios</a></li>
+        <li><a href="#averias">Reportar avería</a></li>
+        <li><a href="#documentos">Documentos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="hero">
+   <div class="hero-marco">
+    <div class="wrap">
+      <div>
+        <span class="etiqueta">Acueducto comunal</span>
+        <h1>El agua de Pedregoso, con la información al día.</h1>
+        <p class="lead">Avisos de cortes y mantenimientos, horarios de atención, reporte de averías, comunicados y documentos de la asociación, en un solo lugar y disponibles para los abonados a toda hora.</p>
+        <div class="acciones">
+          <a class="btn btn-barro" href="#averias">Reportar una avería</a>
+          <a class="btn btn-borde" href="#avisos">Ver avisos vigentes</a>
+        </div>
+      </div>
+      <aside class="estado" aria-label="Estado del servicio">
+        <h2>Estado del servicio</h2>
+        <div class="grande"><span class="punto" aria-hidden="true"></span> Servicio normal</div>
+        <small>Ejemplo · Se actualiza cuando hay un corte o trabajo programado.</small>
+      </aside>
+    </div>
+    <div class="onda" aria-hidden="true">
+      <svg viewBox="0 0 1200 56" preserveAspectRatio="none"><path d="M0 28C150 56 300 0 450 24s300 34 450 8 225-26 300-6V56H0Z" fill="#ffffff"/></svg>
+    </div>
+   </div>
+  </div>
+
+  <section id="avisos" aria-labelledby="t-avisos">
+    <div class="wrap">
+      <div class="encabezado">
+        <h2 id="t-avisos">Avisos y comunicados</h2>
+        <p>Cortes de agua, mantenimientos programados y comunicados de la asociación. Los más recientes aparecen primero.</p>
+      </div>
+      <div class="filtros" role="group" aria-label="Filtrar avisos">
+        <button class="filtro" data-filtro="todos" aria-pressed="true">Todos</button>
+        <button class="filtro" data-filtro="corte" aria-pressed="false">Cortes</button>
+        <button class="filtro" data-filtro="mantenimiento" aria-pressed="false">Mantenimientos</button>
+        <button class="filtro" data-filtro="comunicado" aria-pressed="false">Comunicados</button>
+      </div>
+      <div class="lista-avisos" id="listaAvisos" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="horarios" class="alt" aria-labelledby="t-horarios">
+    <div class="wrap">
+      <div class="encabezado">
+        <h2 id="t-horarios">Horarios de atención</h2>
+        <p>Cuándo y dónde atendemos a los abonados. (Horarios de ejemplo, por confirmar con la ASADA.)</p>
+      </div>
+      <div class="tarjetas">
+        <article class="tarjeta">
+          <div class="icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Oficina</h3>
+          <dl><dt>Lunes a viernes</dt><dd>8:00 a. m. a 12:00 m. d. (ejemplo)</dd><dt>Sábado y domingo</dt><dd>Cerrado</dd></dl>
+        </article>
+        <article class="tarjeta">
+          <div class="icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <h3>Dónde estamos</h3>
+          <dl><dt>Dirección</dt><dd>Pedregoso, San Isidro de El General (dirección exacta por confirmar)</dd></dl>
+        </article>
+        <article class="tarjeta">
+          <div class="icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c3 4.2 6 7 6 10.5A6 6 0 0 1 6 13.5C6 10 9 7.2 12 3Z"/></svg></div>
+          <h3>Emergencias de agua</h3>
+          <dl><dt>Averías y fugas</dt><dd>Se reciben por WhatsApp a toda hora y se atienden según disponibilidad del fontanero.</dd></dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="averias" aria-labelledby="t-averias">
+    <div class="wrap dos-col">
+      <div>
+        <h2 id="t-averias">Cómo reportar una avería</h2>
+        <p>Si ve una fuga, no le llega agua o hay un problema en la tubería, avísenos así:</p>
+        <ol class="pasos">
+          <li><div><strong>Llene el formulario</strong>Indique su nombre, el sector y qué sucede.</div></li>
+          <li><div><strong>Se abre WhatsApp</strong>El mensaje sale escrito; usted solo lo envía.</div></li>
+          <li><div><strong>Le damos seguimiento</strong>La ASADA recibe el reporte y lo atiende.</div></li>
+        </ol>
+      </div>
+      <form class="reporte" id="formReporte" novalidate>
+        <label>Su nombre
+          <input type="text" id="rNombre" autocomplete="name" required>
+        </label>
+        <label>Sector o dirección
+          <input type="text" id="rSector" placeholder="Ej. calle, barrio o referencia" required>
+        </label>
+        <label>¿Qué está pasando?
+          <select id="rTipo">
+            <option>Fuga de agua en la calle</option>
+            <option>No llega agua a mi casa</option>
+            <option>Poca presión</option>
+            <option>Agua con color u olor extraño</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label>Detalle (opcional)
+          <textarea id="rDetalle"></textarea>
+        </label>
+        <button class="btn btn-barro" type="submit">Enviar reporte por WhatsApp</button>
+        <p class="nota" id="rNota">Al enviar se abre su WhatsApp con el mensaje listo. Nada se guarda en este sitio.</p>
+      </form>
+    </div>
+  </section>
+
+  <section id="documentos" class="alt" aria-labelledby="t-docs">
+    <div class="wrap">
+      <div class="encabezado">
+        <h2 id="t-docs">Documentos de la asociación</h2>
+        <p>Información pública para los abonados: reglamento, informes, actas y tarifas. (Lista de ejemplo; aquí se publican los documentos reales en PDF.)</p>
+      </div>
+      <ul class="documentos">
+        <li><span class="nombre">Reglamento de la ASADA<small>Normas de uso y deberes de los abonados</small></span><span class="doc-estado">PDF de ejemplo</span></li>
+        <li><span class="nombre">Informe anual de labores<small>Resumen de gestión y mejoras realizadas</small></span><span class="doc-estado">PDF de ejemplo</span></li>
+        <li><span class="nombre">Informe financiero<small>Ingresos y gastos de la asociación</small></span><span class="doc-estado">PDF de ejemplo</span></li>
+        <li><span class="nombre">Actas de asamblea<small>Acuerdos de las asambleas de abonados</small></span><span class="doc-estado">PDF de ejemplo</span></li>
+        <li><span class="nombre">Tarifas vigentes<small>Cuánto se cobra por el servicio</small></span><span class="doc-estado">PDF de ejemplo</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contacto" aria-labelledby="t-contacto">
+    <div class="wrap dos-col">
+      <div>
+        <h2 id="t-contacto">Contacto</h2>
+        <p>Estamos para atender a los abonados de Pedregoso.</p>
+        <div class="contacto-datos">
+          <div class="fila">
+            <span class="icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.5L3 21l1.6-5.4A8.5 8.5 0 1 1 21 12Z"/></svg></span>
+            <div><strong>WhatsApp</strong><a href="https://wa.me/50684163222">8416-3222</a> <span class="nota">(confirmar número oficial)</span></div>
+          </div>
+          <div class="fila">
+            <span class="icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <div><strong>Correo</strong>Por definir con la ASADA</div>
+          </div>
+          <div class="fila">
+            <span class="icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+            <div><strong>Ubicación</strong>Pedregoso, San Isidro de El General, Pérez Zeledón</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>Por qué un sitio propio</h3>
+        <div class="porque">
+          <div><strong>Siempre disponible</strong>Los avisos se consultan a cualquier hora, sin depender de un grupo de chat.</div>
+          <div><strong>Información oficial</strong>Un solo lugar con lo que la ASADA publica, fácil de compartir.</div>
+          <div><strong>Mantenido al día</strong>Se actualiza cada mes con los avisos y documentos nuevos.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap fila">
+    <div><strong>ASADA de Pedregoso</strong><br>Asociación administradora del acueducto comunal.<br>Pedregoso, San Isidro de El General, Pérez Zeledón.</div>
+    <div>Demo preparado por <strong>Fernando Quesada Mora</strong><br>Desarrollador web · Pérez Zeledón<br>📞 8564-6198 · fernando.quesadam@gmail.com<br><small>Foto de portada: Ryan Fleischer, <a href="https://unsplash.com/photos/a-rocky-stream-flows-through-a-lush-green-forest-GJ3Pcro25xo">Unsplash</a></small></div>
+  </div>
+</footer>
+
+<script>
+  // --- Avisos de ejemplo (se reemplazan con los reales). Orden: más reciente primero. ---
+  const AVISOS = [
+    {tipo:"corte", fecha:"Ejemplo · martes", titulo:"Corte programado por reparación de tubería", texto:"Sectores de ejemplo. Se suspende el servicio por unas horas. Se recomienda almacenar agua con anticipación."},
+    {tipo:"mantenimiento", fecha:"Ejemplo · jueves", titulo:"Limpieza del tanque de almacenamiento", texto:"Trabajo de mantenimiento del tanque. Puede haber baja presión mientras dura."},
+    {tipo:"comunicado", fecha:"Ejemplo · semana pasada", titulo:"Invitación a la asamblea de abonados", texto:"Se convoca a los abonados para conocer el informe de labores y los proyectos del año."},
+    {tipo:"comunicado", fecha:"Ejemplo · mes pasado", titulo:"Recomendaciones para cuidar el agua", texto:"Consejos para detectar fugas en casa y evitar el desperdicio en época seca."}
+  ];
+  const ETIQUETAS = {corte:"Corte", mantenimiento:"Mantenimiento", comunicado:"Comunicado"};
+  const lista = document.getElementById("listaAvisos");
+  const botones = document.querySelectorAll(".filtro");
+
+  function pintar(filtro){
+    const items = AVISOS.filter(a => filtro === "todos" || a.tipo === filtro);
+    lista.replaceChildren();
+    if(!items.length){
+      const v = document.createElement("div"); v.className = "vacio"; v.textContent = "No hay avisos en esta categoría.";
+      lista.appendChild(v); return;
+    }
+    items.forEach(a => {
+      const art = document.createElement("article"); art.className = "aviso"; art.dataset.tipo = a.tipo;
+      const meta = document.createElement("div"); meta.className = "aviso-meta";
+      const chip = document.createElement("span"); chip.className = "chip " + a.tipo; chip.textContent = ETIQUETAS[a.tipo];
+      const fecha = document.createElement("span"); fecha.textContent = a.fecha;
+      meta.append(chip, fecha);
+      const h = document.createElement("h3"); h.textContent = a.titulo;
+      const p = document.createElement("p"); p.textContent = a.texto;
+      art.append(meta, h, p); lista.appendChild(art);
+    });
+  }
+  botones.forEach(b => b.addEventListener("click", () => {
+    botones.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    pintar(b.dataset.filtro);
+  }));
+  pintar("todos");
+
+  // --- Reporte de avería: arma el mensaje y abre WhatsApp ---
+  const NUMERO_ASADA = "50684163222"; // confirmar el número oficial
+  document.getElementById("formReporte").addEventListener("submit", e => {
+    e.preventDefault();
+    const nombre = document.getElementById("rNombre").value.trim();
+    const sector = document.getElementById("rSector").value.trim();
+    const nota = document.getElementById("rNota");
+    if(!nombre || !sector){ nota.textContent = "Por favor escriba su nombre y el sector para poder atender el reporte."; return; }
+    const tipo = document.getElementById("rTipo").value;
+    const detalle = document.getElementById("rDetalle").value.trim();
+    const msg = "Hola, quiero reportar una avería en Pedregoso.\n" +
+      "Nombre: " + nombre + "\nSector: " + sector + "\nProblema: " + tipo + (detalle ? "\nDetalle: " + detalle : "");
+    window.open("https://wa.me/" + NUMERO_ASADA + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    nota.textContent = "Se abrió WhatsApp con su mensaje listo. Solo falta enviarlo.";
+  });
+
+  // --- Menú móvil ---
+  const menuBtn = document.getElementById("menuBtn"), menuNav = document.getElementById("menuNav");
+  menuBtn.addEventListener("click", () => {
+    const abierto = menuNav.classList.toggle("abierto");
+    menuBtn.setAttribute("aria-expanded", String(abierto));
+  });
+  menuNav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    menuNav.classList.remove("abierto"); menuBtn.setAttribute("aria-expanded", "false");
+  }));
+</script>
+</body>
+</html>
